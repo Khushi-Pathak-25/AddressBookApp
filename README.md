@@ -376,7 +376,8 @@ mvnw spring-boot:run
 │   │   │           ├── 📁 threads
 │   │   │           │
 │   │   │           ├── 📁 util
-│   │   │           │
+│   │   │           │   └── 📄 FileUtil.java
+|   |   |           |
 │   │   │           └── 📄 AddressBookAppApplication.java
 │   │   │
 │   │   └── 📁 resources
@@ -398,7 +399,6 @@ mvnw spring-boot:run
 ├── 📄 .gitattributes
 ├── 🚫 .gitignore
 │
-├── 📜 LICENSE
 └── 📘 README.md
 
 ```
