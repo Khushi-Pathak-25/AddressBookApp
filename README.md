@@ -32,8 +32,24 @@
 
 ---
 
-- 🧩 **UC2 – Add Contact to Address Book :**  
-  _Pending implementation._
+- 🧩 **UC2 – Add Contact to Address Book :**
+  - Introduces the ability to add contacts to an Address Book using a REST API.
+  - Establishes the basic service architecture required to manage contacts within multiple Address Books.
+
+  **Purpose**
+  - Enable the system to store contacts inside an Address Book.
+  - Provide a backend API to add contact details such as first name, last name, address, city, state, zip, phone number, and email.
+
+  **Implementation**
+  - Implemented an `AddressBook` model that maintains a `List<Contact>` representing stored contacts.
+  - Created `AddressBookService` to manage Address Books using a `Map<String, AddressBook>`.
+  - Automatically creates an Address Book if it does not already exist.
+  - Implemented `AddressBookController` exposing the REST endpoint:
+    ```
+    POST /addressbooks/{name}/contacts
+    ```
+  - Added unit tests (`AddressBookServiceTest`) covering contact addition, automatic Address Book creation, and handling multiple contacts.
+---
 
 - 🧩 **UC3 – Edit Existing Contact :**  
   _Pending implementation._
