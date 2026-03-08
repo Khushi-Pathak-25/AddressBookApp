@@ -3,7 +3,9 @@ package com.addressbookapp;
 import com.addressbookapp.model.AddressBook;
 import com.addressbookapp.model.Contact;
 import com.addressbookapp.service.AddressBookService;
+import com.addressbookapp.util.CSVUtil;
 import com.addressbookapp.util.FileUtil;
+import com.addressbookapp.util.JSONUtil;
 
 import org.junit.jupiter.api.*;
 
@@ -908,5 +910,121 @@ public class AddressBookServiceTest {
         );
 
         assertEquals(2, result.size());
+    }
+    
+    @Test
+    public void givenContacts_whenSavedToCSV_shouldCreateCSVFile() {
+
+        AddressBookService service = new AddressBookService();
+
+        service.addContact("personal",
+                new Contact("Tarus","Prabhat","","Ariana","Geornite","567834","",""));
+
+        service.saveContactsToCSV("personal","src/test/resources/testdata/test_contacts.csv");
+
+        File file = new File("src/test/resources/testdata/test_contacts.csv");
+
+        assertTrue(file.exists());
+    }
+    
+    @Test
+    public void givenCSVFile_whenRead_shouldReturnContacts() {
+
+        CSVUtil.writeContactsToCSV(
+                "src/test/resources/testdata/test_contacts.csv",
+                List.of(new Contact("Tarus","Prabhat","","Ariana","Geornite","567834","",""))
+        );
+
+        List<Contact> contacts = CSVUtil.readContactsFromCSV("src/test/resources/testdata/test_contacts.csv");
+
+        assertEquals(1, contacts.size());
+    }
+    
+    @Test
+    public void givenMultipleContacts_whenSavedAndLoadedCSV_shouldMatchCount() {
+
+        List<Contact> contacts = List.of(
+                new Contact("Tarus","Prabhat","","Ariana","Geornite","567834","",""),
+                new Contact("Rahul","Verma","","Delhi","DL","110001","","")
+        );
+
+        CSVUtil.writeContactsToCSV("src/test/resources/testdata/multi_contacts.csv", contacts);
+
+        List<Contact> result = CSVUtil.readContactsFromCSV("src/test/resources/testdata/multi_contacts.csv");
+
+        assertEquals(2, result.size());
+    }
+    
+    @Test
+    public void givenEmptyCSV_whenRead_shouldReturnEmptyList() {
+
+        List<Contact> contacts = CSVUtil.readContactsFromCSV("src/test/resources/testdata/empty.csv");
+
+        assertEquals(0, contacts.size());
+    }
+    
+    @Test
+    public void givenContacts_whenSavedToJSON_shouldCreateFile() {
+
+        AddressBookService service = new AddressBookService();
+
+        service.addContact("personal",
+                new Contact("Tarus","Prabhat","","Ariana","Geornite","567834","",""));
+
+        String path = "src/test/resources/testdata/test_contacts.json";
+
+        service.saveContactsToJSON("personal", path);
+
+        File file = new File(path);
+
+        assertTrue(file.exists());
+    }
+    
+    @Test
+    public void givenJSONFile_whenRead_shouldReturnContacts() {
+
+        List<Contact> contacts = List.of(
+                new Contact("Tarus","Prabhat","","Ariana","Geornite","567834","","")
+        );
+
+        JSONUtil.writeContactsToJSON(
+                "src/test/resources/testdata/test_contacts.json",
+                contacts
+        );
+
+        List<Contact> result = JSONUtil.readContactsFromJSON(
+                "src/test/resources/testdata/test_contacts.json"
+        );
+
+        assertEquals(1, result.size());
+    }
+    
+    @Test
+    public void givenMultipleContacts_whenSavedAndLoadedJSON_shouldMatchCount() {
+
+        List<Contact> contacts = List.of(
+                new Contact("Tarus","Prabhat","","Ariana","Geornite","567834","",""),
+                new Contact("Rahul","Verma","","Delhi","DL","110001","","")
+        );
+
+        String path = "src/test/resources/testdata/multi_contacts.json";
+
+        JSONUtil.writeContactsToJSON(path, contacts);
+
+        List<Contact> result = JSONUtil.readContactsFromJSON(path);
+
+        assertEquals(2, result.size());
+    }
+    
+    @Test
+    public void givenEmptyJSON_whenRead_shouldReturnEmptyList() {
+
+        String path = "src/test/resources/testdata/empty.json";
+
+        JSONUtil.writeContactsToJSON(path, new ArrayList<>());
+
+        List<Contact> contacts = JSONUtil.readContactsFromJSON(path);
+
+        assertEquals(0, contacts.size());
     }
 }
