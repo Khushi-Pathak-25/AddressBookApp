@@ -164,8 +164,6 @@
 
 ---
 
----
-
 - 🧩 **UC9 – View Persons by City or State :**
   - Introduces the ability to view contacts grouped by city or state across Address Books.
   - Organizes contacts based on location for easier viewing and analysis.
